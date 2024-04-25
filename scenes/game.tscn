@@ -1,0 +1,93 @@
+[gd_scene load_steps=7 format=3 uid="uid://dhqugyp04lc5u"]
+
+[ext_resource type="Script" path="res://scripts/Game.gd" id="1_ojx8u"]
+[ext_resource type="PackedScene" uid="uid://crsh2v8ligyde" path="res://scenes/player.tscn" id="2_22dje"]
+[ext_resource type="PackedScene" uid="uid://do1m8mnv72o5q" path="res://scenes/ball.tscn" id="3_jitls"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_symne"]
+size = Vector2(1182, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7ud7k"]
+size = Vector2(38, 706)
+
+[sub_resource type="SystemFont" id="SystemFont_16kd2"]
+font_names = PackedStringArray("PingFang SC")
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_ojx8u")
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="Top" type="Area2D" parent="Walls"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Top"]
+position = Vector2(574, 0)
+shape = SubResource("RectangleShape2D_symne")
+
+[node name="Bottom" type="Area2D" parent="Walls"]
+position = Vector2(1, 650)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Bottom"]
+position = Vector2(574, 0)
+shape = SubResource("RectangleShape2D_symne")
+
+[node name="Left" type="Area2D" parent="Walls"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Left"]
+position = Vector2(-1, 324)
+shape = SubResource("RectangleShape2D_7ud7k")
+
+[node name="Right" type="Area2D" parent="Walls"]
+position = Vector2(1157, 3)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Right"]
+position = Vector2(-1, 319.5)
+shape = SubResource("RectangleShape2D_7ud7k")
+
+[node name="Player" parent="." instance=ExtResource("2_22dje")]
+position = Vector2(139, 325)
+
+[node name="Player2" parent="." instance=ExtResource("2_22dje")]
+position = Vector2(1028, 333)
+side = "p2"
+
+[node name="Ball" parent="." instance=ExtResource("3_jitls")]
+position = Vector2(576, 326)
+collision_mask = 2
+
+[node name="p2_score" type="Label" parent="."]
+offset_left = 592.0
+offset_top = 48.0
+offset_right = 629.0
+offset_bottom = 84.0
+scale = Vector2(8.91674, 4.4114)
+theme_override_fonts/font = SubResource("SystemFont_16kd2")
+text = "0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="p1_score" type="Label" parent="."]
+offset_left = 240.0
+offset_top = 48.0
+offset_right = 277.0
+offset_bottom = 84.0
+scale = Vector2(8.91674, 4.4114)
+theme_override_fonts/font = SubResource("SystemFont_16kd2")
+text = "0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="Walls/Top" to="." method="_on_top_body_entered"]
+[connection signal="body_entered" from="Walls/Bottom" to="." method="_on_bottom_body_entered"]
+[connection signal="body_entered" from="Walls/Left" to="." method="_on_left_body_entered"]
+[connection signal="body_entered" from="Walls/Right" to="." method="_on_right_body_entered"]
